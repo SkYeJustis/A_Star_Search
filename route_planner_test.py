@@ -111,14 +111,19 @@ class TestRoutePlanner(unittest.TestCase):
                         [2, 4, 7, 22, 28, 36]]
 
     def test_map10(self):
-        self.assertEqual(shortest_path(self.map_10, 0, 5), [0, 5])
+        self.assertEqual(shortest_path(self.map_10, 0, 5, 'Euclidean'), [0, 5])
+
+        self.assertEqual(shortest_path(self.map_10, 0, 5, 'Manhattan'), [0, 5])
 
 
     def test_map40(self):
-        self.assertEqual(shortest_path(self.map_40, 5, 34), [5, 16, 37, 12, 34])
-        self.assertEqual(shortest_path(self.map_40, 5, 5), [5])
-        self.assertEqual(shortest_path(self.map_40, 8, 24), [8, 14, 16, 37, 12, 17, 10, 24])
+        self.assertEqual(shortest_path(self.map_40, 5, 34, 'Euclidean'), [5, 16, 37, 12, 34])
+        self.assertEqual(shortest_path(self.map_40, 5, 5, 'Euclidean'), [5])
+        self.assertEqual(shortest_path(self.map_40, 8, 24, 'Euclidean'), [8, 14, 16, 37, 12, 17, 10, 24])
 
+        self.assertEqual(shortest_path(self.map_40, 5, 34, 'Manhattan'), [5, 16, 37, 12, 34])
+        self.assertEqual(shortest_path(self.map_40, 5, 5, 'Manhattan'), [5])
+        self.assertEqual(shortest_path(self.map_40, 8, 24, 'Manhattan'), [8, 14, 16, 37, 12, 17, 10, 24])
 
 if __name__ == '__main__':
     unittest.main()

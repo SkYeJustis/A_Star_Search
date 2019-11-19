@@ -8,6 +8,7 @@ References:
 """
 
 import heapq
+import math
 
 class Map:
     def __init__(self, intersections=None, roads=None):
@@ -30,7 +31,7 @@ class Location:
 
 
 
-def heuristic(map, current, target):
+def heuristic(map, current, target, hueristic_name):
     """
     The manhattan distance is the heuristic function used to calculate h, the estimated distance
 
@@ -39,8 +40,13 @@ def heuristic(map, current, target):
     :param target:
     :return:
     """
-    return float((abs(float(map.intersections[current][0])-float(map.intersections[target][0]))
-         + abs(float(map.intersections[current][1]) - float(map.intersections[target][1]))))
+    if hueristic_name.lower() == 'manhattan':
+        return float((abs(float(map.intersections[current][0])-float(map.intersections[target][0]))
+             + abs(float(map.intersections[current][1]) - float(map.intersections[target][1]))))
+    else:
+        return math.sqrt( (float(map.intersections[current][0])-float(map.intersections[target][0]))**2
+                          + (float(map.intersections[current][1])-float(map.intersections[target][1]))**2 )
+
 
 
 def a_star_path(current):
@@ -59,7 +65,7 @@ def a_star_path(current):
 
 
 
-def shortest_path(M, start, goal):
+def shortest_path(M, start, goal, hueristic_name='euclidean'):
 
     # THe structure to hold all Location nodes
     locations = {}
@@ -75,7 +81,7 @@ def shortest_path(M, start, goal):
 
     heapq.heappush(min_heap, (locations[start].g, locations[start].value))
 
-    locations[start].h = heuristic(M, start, goal)
+    locations[start].h = heuristic(M, start, goal, hueristic_name)
 
     while unexplored:
 
@@ -95,7 +101,7 @@ def shortest_path(M, start, goal):
 
             locations[frontier] = locations.get(frontier, Location(frontier))
 
-            tentative_g = locations[current].g + heuristic(M, current, frontier)
+            tentative_g = locations[current].g + heuristic(M, current, frontier, hueristic_name)
 
             # Check if the tentative_g is better than the prev. g
             ## or the frontier is not-yet in unexplored
@@ -104,7 +110,7 @@ def shortest_path(M, start, goal):
                 locations[frontier].parent = locations[current]
 
                 locations[frontier].g = tentative_g
-                locations[frontier].h = heuristic(M, frontier, goal)
+                locations[frontier].h = heuristic(M, frontier, goal, hueristic_name)
 
                 heapq.heappush(min_heap, (locations[frontier].f, frontier))
                 unexplored.add(frontier)
