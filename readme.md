@@ -9,3 +9,4 @@ Route_planner.py demonstrates an implementation of the A* Search algorithm acros
     * Relevant A* information
 * The route_planner_test.py contains tests for route_planner.py
 
+Problem adapted from Udacity's Data Structures & Algorithms Nanodegree Program
